@@ -50,8 +50,13 @@ public class CharacterController : MonoBehaviour
     public GameObject attackUI;
 
     public string attackType = "melee";
+    public int attackTypeInt = 0;
 
     public GameObject[] attackSpots_Fire;
+
+    [Header("Attack delays")]
+    public float attackDelay_Fire = 1.5f;
+    public bool canAttack_Fire;
 
     
 
@@ -124,6 +129,23 @@ public class CharacterController : MonoBehaviour
         }
 
         //Change attack type
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            attackTypeInt++;
+            if(attackTypeInt > 3)
+            {
+                attackTypeInt = 0;
+            }
+        }
+        else if(Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            attackTypeInt = attackTypeInt - 1;
+            if (attackTypeInt < 0)
+            {
+                attackTypeInt = 3;
+            }
+        }
+
         ChangeAttack();
 
         //Opening/closing inventory
@@ -145,6 +167,15 @@ public class CharacterController : MonoBehaviour
 
                 inventoryPanel.SetActive(false);
             }
+        }
+
+        if (worldController.GetComponent<PauseMenuController>().isGamePaused)
+        {
+            inventoryController.externalCellSize = inventoryController.cellSize; //Reset externalCellSize for next check
+
+            isInventoryOpen = false;
+
+            inventoryPanel.SetActive(false);
         }
     }
 
@@ -276,7 +307,7 @@ public class CharacterController : MonoBehaviour
             attackSpots_Fire[2].SetActive(false);
             attackSpots_Fire[3].SetActive(false);
         }
-        else if(attackType == "fire")
+        else if(attackType == "fire" && canAttack_Fire)
         {
             //Disable attack specifics
 
@@ -349,8 +380,28 @@ public class CharacterController : MonoBehaviour
     //Change attack type
     void ChangeAttack()
     {
-        if (Input.GetButtonDown("Attack_Change_1") || Input.GetAxis("D-Pad_Down-Up") < 0)
+        if (Input.GetButtonDown("Attack_Change_1"))
         {
+            attackTypeInt = 0;
+        }
+        else if (Input.GetButtonDown("Attack_Change_2"))
+        {
+            attackTypeInt = 1;
+        }
+        else if (Input.GetButtonDown("Attack_Change_3"))
+        {
+            attackTypeInt = 2;
+        }
+        else if (Input.GetButtonDown("Attack_Change_4"))
+        {
+            attackTypeInt = 3;
+        }
+
+
+        if (attackTypeInt == 0 || Input.GetButtonDown("Attack_Change_1") || Input.GetAxis("D-Pad_Down-Up") < 0)
+        {
+            attackTypeInt = 0;
+
             //Change the type in this script
             attackType = "melee";
 
@@ -363,8 +414,10 @@ public class CharacterController : MonoBehaviour
             //Change the UI selection
             attackUI.GetComponent<UI_Attack>().changeSelection(0);
         }
-        else if (Input.GetButtonDown("Attack_Change_2") || Input.GetAxis("D-Pad_Left-Right") > 0)
+        else if (attackTypeInt == 1 || Input.GetButtonDown("Attack_Change_2") || Input.GetAxis("D-Pad_Left-Right") > 0)
         {
+            attackTypeInt = 1;
+
             attackType = "fire";
 
             AttackSpots[0].GetComponent<AttackInfo>().type = "fire";
@@ -374,8 +427,10 @@ public class CharacterController : MonoBehaviour
 
             attackUI.GetComponent<UI_Attack>().changeSelection(1);
         }
-        else if (Input.GetButtonDown("Attack_Change_3") || Input.GetAxis("D-Pad_Down-Up") > 0)
+        else if (attackTypeInt == 2 || Input.GetButtonDown("Attack_Change_3") || Input.GetAxis("D-Pad_Down-Up") > 0)
         {
+            attackTypeInt = 2;
+
             attackType = "Attack 3";
 
             AttackSpots[0].GetComponent<AttackInfo>().type = "Attack 3";
@@ -385,8 +440,10 @@ public class CharacterController : MonoBehaviour
 
             attackUI.GetComponent<UI_Attack>().changeSelection(2);
         }
-        else if (Input.GetButtonDown("Attack_Change_4") || Input.GetAxis("D-Pad_Left-Right") < 0)
+        else if (attackTypeInt == 3 || Input.GetButtonDown("Attack_Change_4") || Input.GetAxis("D-Pad_Left-Right") < 0)
         {
+            attackTypeInt = 3;
+
             attackType = "Attack 4";
             AttackSpots[0].GetComponent<AttackInfo>().type = "Attack 4";
             AttackSpots[1].GetComponent<AttackInfo>().type = "Attack 4";
@@ -397,8 +454,8 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-        //Check death
-        public void checkDeath()
+    //Check death
+    public void checkDeath()
     {
         if(health < 0.1f)
         {

@@ -44,6 +44,7 @@ public class ItemSlotDragDropHandler : MonoBehaviour, IBeginDragHandler, IDragHa
 
     public void OnDrop(PointerEventData eventData)
     {
+        Debug.Log("Dropped");
         var itemBeingDropped = eventData.pointerDrag.GetComponent<ItemSlotDragDropHandler>();
         if (itemBeingDropped != null && itemBeingDropped != this)
         {

@@ -13,10 +13,12 @@ public class MainMenuController : MonoBehaviour
     public GameObject optionsScreen;
 
     [Header("Controllers")]
-    public GameObject Controller;
+    GameObject Controller;
 
     void Start()
     {
+        Controller = this.gameObject;
+
         OpenMainMenu();
         CloseOptions();
     }

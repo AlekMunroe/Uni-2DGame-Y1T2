@@ -153,27 +153,6 @@ public class BoxInteraction : MonoBehaviour
         closeBoxDelay = false;
     }
 
-    public void TransferItemToPlayer(int boxItemIndex)
-    {
-        if (boxItemIndex < 0 || boxItemIndex >= boxItems.Count) return; //Check index, if failed, return
-
-        string item = boxItems[boxItemIndex];
-        if (!string.IsNullOrEmpty(item))
-        {
-            //Add item to player's inventory if theres space
-            int emptySlotIndex = player.GetComponent<CharacterController>().heldItems.FindIndex(i => string.IsNullOrEmpty(i));
-            if (emptySlotIndex != -1)
-            {
-                player.GetComponent<CharacterController>().heldItems[emptySlotIndex] = item;
-                boxItems.RemoveAt(boxItemIndex); //Remove the item from the box
-            }
-        }
-
-        //Update both inventories UI
-        UpdateBoxUI();
-        inventoryController.UpdateInventory(player.GetComponent<CharacterController>().heldItems);
-    }
-
     private void UpdateBoxUI()
     {
         Debug.Log("Transfer");

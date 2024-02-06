@@ -13,7 +13,11 @@ public class EnemiesController : MonoBehaviour
     [Header("Enemies Info")]
     public bool canAttack;
     public bool canFollow;
+    public bool canDropItem;
     public float health = 2;
+
+    public bool canAttackState;
+    public bool canFollowState;
 
     [Header("Player")]
     public GameObject player;
@@ -30,6 +34,15 @@ public class EnemiesController : MonoBehaviour
     public float followSpeed = 0.5f;
     public float stoppingDistance = 1f; //The distance from the player where the enemy will stop moving
     public LayerMask obstacleMask;
+
+    [Header("Death")]
+    public GameObject itemToDrop;
+    public string droppedItemName;
+
+    public GameObject dropParent;
+
+    [Header("World")]
+    public GameObject worldController;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +66,10 @@ public class EnemiesController : MonoBehaviour
 
         //Set the playertransform
         playerTransform = player.gameObject.transform;
+
+        //Set the states for pausing and unpausing the game;
+        canAttackState = canAttack;
+        canFollowState = canFollow;
     }
 
     // Update is called once per frame
@@ -60,6 +77,20 @@ public class EnemiesController : MonoBehaviour
     {
         //Following
         if (canFollow) Follow();
+
+        //Pausing/Unpausing the game
+        if (worldController.GetComponent<PauseMenuController>().isGamePaused)
+        {
+            //If the game pauses
+            canAttack = false;
+            canFollow = false;
+        }
+        else if(!worldController.GetComponent<PauseMenuController>().isGamePaused && (canAttack != canAttackState || canFollow != canFollowState))
+        {
+            //If the game unpauses
+            canFollow = canFollowState;
+            canAttack = canAttackState;
+        }
     }
 
     //----------CONTROLLING----------
@@ -67,6 +98,16 @@ public class EnemiesController : MonoBehaviour
     {
         //Debug
         if (debug_Death) { Debug.Log(this.gameObject.name + " Died"); }
+
+        if (canDropItem)
+        {
+            Debug.Log("Dropped Item");
+            //Drop item from prefab
+            GameObject droppedItem = Instantiate(itemToDrop, this.transform);
+            droppedItem.name = droppedItemName; //Rename the item
+
+            droppedItem.transform.parent = dropParent.transform; //Change the parent before it is destroyed
+        }
 
         //This should be switched for an animation with a fade coming after
         Destroy(this.gameObject);
