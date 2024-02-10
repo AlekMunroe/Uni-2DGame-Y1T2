@@ -4,8 +4,9 @@
 <!-- ROADMAP -->
 ## V7
 
-- [x] Animations for Idle, move, attack and die
+- [x] Enemy animations for Idle, move, attack and die
 - [x] Updated attack function
+- [x] Updated death function to IEnumerator
 - [x] Optimised how the enemy checks how close it is to the player
 - [ ] XP/Level system
 
