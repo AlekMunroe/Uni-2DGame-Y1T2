@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using UnityEngine.Sprites;
 
 public class EnemiesController : MonoBehaviour
 {
@@ -22,18 +24,23 @@ public class EnemiesController : MonoBehaviour
     [Header("Player")]
     public GameObject player;
 
-    public float playerStopDistance = 1.2f;
+    public float playerStopDistance = 1.5f;
 
     [Header("Attacking")]
     public float attackTime = 2f;
     public float attackAmount = 1.5f;
     bool onAttackCooldown;
+    bool isAttacking;
 
     [Header("Following")]
     public Transform playerTransform;
-    public float followSpeed = 0.5f;
+    public float followSpeed = 1.5f;
     public float stoppingDistance = 1f; //The distance from the player where the enemy will stop moving
     public LayerMask obstacleMask;
+    bool isMoving;
+
+    Vector2 previousPos; //Used for flipping the sprite
+    bool isMovingLeft;
 
     [Header("Death")]
     public GameObject itemToDrop;
@@ -41,10 +48,19 @@ public class EnemiesController : MonoBehaviour
 
     public GameObject dropParent;
 
+    bool isDead;
+
     [Header("World")]
     public GameObject worldController;
 
-    // Start is called before the first frame update
+    [Header("Animation")]
+    public GameObject thisSprite;
+    Animator animator;
+
+    public bool canMoveDiagonally = true;
+
+    public float deathAnimationTime = 2.1f;
+
     void Start()
     {
         //Setting functions
@@ -64,44 +80,70 @@ public class EnemiesController : MonoBehaviour
             Debug.LogError("Player not found!");
         }
 
-        //Set the playertransform
+        //Set the playertransform and previousPos
         playerTransform = player.gameObject.transform;
+
+        previousPos = transform.position;
 
         //Set the states for pausing and unpausing the game;
         canAttackState = canAttack;
         canFollowState = canFollow;
+
+        //Set the sprite and animator
+        thisSprite = this.gameObject;
+        animator = this.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //Following
-        if (canFollow) Follow();
+        if (!isDead)
+        {
+            //Move
+            if (canFollow && !onAttackCooldown) { Follow(); }
 
-        //Pausing/Unpausing the game
-        if (worldController.GetComponent<PauseMenuController>().isGamePaused)
-        {
-            //If the game pauses
-            canAttack = false;
-            canFollow = false;
-        }
-        else if(!worldController.GetComponent<PauseMenuController>().isGamePaused && (canAttack != canAttackState || canFollow != canFollowState))
-        {
-            //If the game unpauses
-            canFollow = canFollowState;
-            canAttack = canAttackState;
+            //Pausing/Unpausing the game
+            if (worldController.GetComponent<PauseMenuController>().isGamePaused)
+            {
+                //If the game pauses
+                canAttack = false;
+                canFollow = false;
+            }
+            else if (!worldController.GetComponent<PauseMenuController>().isGamePaused && (canAttack != canAttackState || canFollow != canFollowState))
+            {
+                //If the game unpauses
+                canFollow = canFollowState;
+                canAttack = canAttackState;
+            }
+
+            if (!isAttacking)
+            {
+
+                if (isMoving)
+                {
+                    PlayMoveAnimation();
+                }
+                else
+                {
+                    PlayIdleAnimation();
+                }
+            }
         }
     }
 
     //----------CONTROLLING----------
-    void Death()
+    IEnumerator Death()
     {
+        isDead = true;
+
         //Debug
         if (debug_Death) { Debug.Log(this.gameObject.name + " Died"); }
 
+        PlayDeathAnimation();
+
+        yield return new WaitForSeconds(deathAnimationTime);
+
         if (canDropItem)
         {
-            Debug.Log("Dropped Item");
             //Drop item from prefab
             GameObject droppedItem = Instantiate(itemToDrop, this.transform);
             droppedItem.name = droppedItemName; //Rename the item
@@ -118,39 +160,70 @@ public class EnemiesController : MonoBehaviour
         //Check distance to the player
         float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
 
-        //If the enemy is far away from the player compared to the stopping distance and closer than 0.5 units, move towards the player
-        if (distanceToPlayer > stoppingDistance && distanceToPlayer > playerStopDistance)
+        //Check if the enemy is within playerStopDistance
+        if (distanceToPlayer <= playerStopDistance)
+        {
+            //Stop moving
+            isMoving = false;
+
+            return;
+        }
+
+        //If the enemy is far away from the player, move
+        if (distanceToPlayer > stoppingDistance)
         {
             //Set direction
             Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
 
             //Check for obstacles
             RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleMask);
-            if (hit.collider == null) // No obstacle detected
+            if (hit.collider == null) //If there are no obstacles
             {
                 //Actually move
                 transform.position = Vector2.MoveTowards(transform.position, playerTransform.position, followSpeed * Time.deltaTime);
+                isMoving = true;
             }
-            // If an obstacle is detected, you can implement additional logic to handle it, such as waiting or moving around
+            else
+            {
+                isMoving = false; //Stop moving if hit an obstacle
+            }
+
+            //Checking last position for flipping the sprite
+            isMovingLeft = (transform.position.x < previousPos.x);
+            
+
+            //Update previousPos
+            previousPos = transform.position;
+        }
+        else
+        {
+            isMoving = false;
         }
     }
+
 
 
     IEnumerator Attack()
     {
         onAttackCooldown = true;
+        isAttacking = true;
 
         if (debug_Attacking) { Debug.Log("Attack"); }
 
-        //Remove health
+        PlayAttackAnimation();
+
+        //Lose health
         player.GetComponent<CharacterController>().LoseHealth(attackAmount);
 
         yield return new WaitForSeconds(attackTime);
 
+        isAttacking = false;
         onAttackCooldown = false;
 
         if (debug_Attacking) { Debug.Log("End attack"); }
     }
+
+
 
 
 
@@ -161,7 +234,7 @@ public class EnemiesController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         //Attacking
-        if (other.gameObject == player && canAttack)
+        if (other.gameObject.tag == "Player" && canAttack && !isDead)
         {
             if (!onAttackCooldown)
             {
@@ -175,20 +248,75 @@ public class EnemiesController : MonoBehaviour
         //Damage
         if (other.gameObject.tag == "Player_AttackSpots")
         {
-            //melee
-            if (other.gameObject.GetComponent<AttackInfo>().type == "melee")
+            var attackInfo = other.gameObject.GetComponent<AttackInfo>();
+            if (attackInfo != null) //Check if AttackInfo exists
             {
-                health = health - other.gameObject.GetComponent<AttackInfo>().attackAmount;
-            }
+                //Take away health
+                health -= attackInfo.attackAmount;
 
-            //Checking if killed
-            if (health < 0.1f)
+                //Checking if killed
+                if (health < 0.1f)
+                {
+                    StartCoroutine(Death());
+                }
+
+                //Debug
+                if (debug_Health) { Debug.Log(this.gameObject.name + " Health: " + health); }
+            }
+            else
             {
-                Death();
+                //Error
+                Debug.LogWarning("AttackInfo is not on Player_AttackSpots");
             }
+        }
+    }
 
-            //Debug
-            if (debug_Health) { Debug.Log(this.gameObject.name + " Health: " + health); }
+
+
+
+    //----------ANIMATIONS----------
+
+    void PlayIdleAnimation()
+    {
+        animator.Play("IdleDown");
+    }
+
+    void PlayMoveAnimation()
+    {
+        animator.Play("WalkDown");
+
+        if (isMovingLeft)
+        {
+            FlipSprite(true);
+        }
+        else
+        {
+            FlipSprite(false);
+        }
+    }
+
+    void PlayAttackAnimation()
+    {
+        animator.Play("Attack");
+    }
+
+    void PlayDeathAnimation()
+    {
+        animator.Play("Die");
+    }
+    
+
+    void FlipSprite(bool isFlipped)
+    {
+        if (!isFlipped && thisSprite.transform.localScale.x < 0)
+        {
+            //Flip back to normal
+            thisSprite.transform.localScale = new Vector3( thisSprite.transform.localScale.x * -1, thisSprite.transform.localScale.y, thisSprite.transform.localScale.z);
+        }
+        else if (isFlipped && thisSprite.transform.localScale.x > 0)
+        {
+            //Flip sprite reversed
+            thisSprite.transform.localScale = new Vector3(- thisSprite.transform.localScale.x, thisSprite.transform.localScale.y, thisSprite.transform.localScale.z);
         }
     }
 }
