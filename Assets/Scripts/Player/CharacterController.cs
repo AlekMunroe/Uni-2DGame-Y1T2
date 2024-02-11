@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 
 public class CharacterController : MonoBehaviour
@@ -21,6 +22,8 @@ public class CharacterController : MonoBehaviour
     public GameObject worldController;
 
     private Rigidbody2D rb;
+
+    public GameObject cam;
 
     //Movement + Animation
     [Header("Movement + Animation")]
@@ -80,6 +83,19 @@ public class CharacterController : MonoBehaviour
     public GameObject inventoryPanel;
     public InventoryController inventoryController;
 
+    //Audio
+    [Header("Audio")]
+    AudioSource audioSource;
+    public AudioClip[] attackAudio;
+    public int attackAudioPlay;
+
+    public AudioClip[] gainAudio;
+    public int gainAudioPlay;
+
+    public AudioClip[] healthAudio;
+    public int healthAudioPlay;
+    public int extraHealthAudioPlay;
+
 
     //----------DEFAULT FUNCTIONS----------
 
@@ -118,6 +134,9 @@ public class CharacterController : MonoBehaviour
         }
 
         InitializeInventory();
+
+        //Set audio
+        audioSource = cam.GetComponent<AudioSource>();
 }
 
     void Update()
@@ -486,6 +505,10 @@ public class CharacterController : MonoBehaviour
     {
         if (health < defaultHealth)
         {
+            //Audio
+            audioSource.clip = healthAudio[healthAudioPlay]; //Add gainAudio to the audioSource
+            audioSource.Play(); //Play the audio
+
             //Remove the heart
             Destroy(other);
 
@@ -507,6 +530,10 @@ public class CharacterController : MonoBehaviour
     {
         if (health != maxHealth)
         {
+            //Audio
+            audioSource.clip = healthAudio[extraHealthAudioPlay]; //Add gainAudio to the audioSource
+            audioSource.Play(); //Play the audio
+
             //Remove the heart
             Destroy(other);
 
@@ -649,6 +676,10 @@ public class CharacterController : MonoBehaviour
     //Attack
     void PlayAttackAnimation(Vector2 direction)
     {
+        //Audio
+        //audioSource.clip = attackAudio[attackAudioPlay]; //Add attackAudio to the audioSource
+        //audioSource.Play(); //Play the audio
+
         //Melee
         if (attackType == "melee")
         {
@@ -810,6 +841,10 @@ public class CharacterController : MonoBehaviour
 
         //Destroy the picked up item
         Destroy(item.gameObject);
+
+        //Audio
+        audioSource.clip = gainAudio[gainAudioPlay]; //Add gainAudio to the audioSource
+        audioSource.Play(); //Play the audio
 
         yield return new WaitForSeconds(pickupDelayTime); //Add a delay to prevent picking up multiple items at once
 

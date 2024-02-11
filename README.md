@@ -2,6 +2,13 @@
 "Breakout"
 
 <!-- ROADMAP -->
+## V9
+
+- [x] Start of sound effects have been added
+- [ ] The rest of the sound effects
+- [ ] Background music
+- [ ] Updated UI
+
 ## V8
 
 - [x] Levelling system

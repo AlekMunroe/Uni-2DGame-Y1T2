@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 
 public class LevellingController : MonoBehaviour
 {
+    [Header("Generic")]
+    public GameObject cam;
+
     [Header("Information")]
     public float currentLevel;
     public float oldLevel;
@@ -16,6 +20,11 @@ public class LevellingController : MonoBehaviour
     public TMP_Text levelText;
 
     public float sliderIncreaseSpeed = 0.5f;
+
+    [Header("Audio")]
+    AudioSource audioSource;
+    public AudioClip[] levelUpAudio;
+    public int levelUpAudioPlay;
 
     // Start is called before the first frame update
     void Start()
@@ -28,12 +37,18 @@ public class LevellingController : MonoBehaviour
 
         currentLevel = PlayerPrefs.GetFloat("PlayerLevel");
 
+        //Text
+        levelText.text = "Level: " + Mathf.Floor(currentLevel).ToString("0");
+
         //Slider
         slider.value = currentLevel - Mathf.Floor(currentLevel);
 
         oldLevel = currentLevel;
 
         slider.value = currentLevel - Mathf.Floor(currentLevel);
+
+        //Set the audio
+        audioSource = cam.GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -48,49 +63,78 @@ public class LevellingController : MonoBehaviour
 
     public void UpdateUI()
     {
-        //Update the text and remove the float
-        levelText.text = "Level: " + Mathf.Floor(currentLevel).ToString("0");
+        if ((int)currentLevel > (int)oldLevel)
+        {
+            Debug.Log("level > oldLevel");
 
-        //Save the level
-        PlayerPrefs.SetFloat("PlayerLevel", currentLevel);
+            //Audio
+            audioSource.clip = levelUpAudio[levelUpAudioPlay]; //Add levelUpAudio to the audioSource
+            audioSource.Play(); //Play the audio
+
+            
+        }
+
+        if((int)currentLevel == (int)oldLevel){
+            //Update the text and remove the float
+            levelText.text = "Level: " + Mathf.Floor(currentLevel).ToString("0");
+
+            //Save the level
+            PlayerPrefs.SetFloat("PlayerLevel", currentLevel);
+        }
     }
 
     void SmoothIncreaseSlider()
     {
-        //Calculate the amount to fill for the current increase amount (0-1)
+        //Set the target and start values for the slider
+        float targetSliderValue = currentLevel - Mathf.Floor(currentLevel);
+        float startSliderValue = slider.value;
+
+        //Get the amount of times the slider needs to fill up
+        int levelsIncreased = (int)Mathf.Floor(currentLevel) - (int)Mathf.Floor(oldLevel);
+
+        //Get the amount the slider needs to increase one time
         float fillAmount = sliderIncreaseSpeed * Time.deltaTime;
 
-        //Calculate the entire amount of times it needs to fill including floats
-        float totalRequiredFills = (currentLevel - oldLevel) + (currentLevel - Mathf.Floor(currentLevel));
-
-        //The current progress
-        float currentFill = oldLevel + slider.value;
-
-        if (currentFill < currentLevel)
+        if (levelsIncreased >= 1)
         {
-            //If slider.value + oldLevel is less than currentLevel, keep filling
-            slider.value += fillAmount;
-
-            //If the slider has reached or passed 1.0, reset
-            if (slider.value >= 1.0f)
+            //If the slider needs to fill multiple times, fill the slider to 1
+            if (slider.value < 1.0f)
             {
-                slider.value = 0f; //Reset slider
-                oldLevel += 1.0f; //Add 1 to oldLevel to show a full fill
-
-                //Error correction, making sure the slider doesnt go over currentLevel
-                if (oldLevel > currentLevel)
+                slider.value += fillAmount;
+                if (slider.value >= 1.0f) //If the slider is fill
                 {
-                    oldLevel = currentLevel;
+
+                    //Update for the next slide increase
+                    oldLevel += 1;
+                    slider.value = 0;
+                    isUpdating = true;
                 }
             }
         }
         else
         {
-            //Add the final decimal
-            slider.value = currentLevel - Mathf.Floor(currentLevel);
-            isUpdating = false;
+            //increase to the targetSliderValue for the current level
+            if (slider.value < targetSliderValue)
+            {
+                slider.value += fillAmount;
+                if (slider.value > targetSliderValue)
+                {
+                    slider.value = targetSliderValue; //Make sure the slider exactly matches the target
+                }
+            }
+
+            //Set isUpdating based on if it is updating
+            isUpdating = !(Mathf.Approximately(currentLevel, oldLevel + slider.value));
+        }
+
+        //If the currentLevel is exactly a whole level e.g. 1.0
+        if (Mathf.Floor(currentLevel) > Mathf.Floor(oldLevel) && slider.value == 0)
+        {
+            isUpdating = true; //Continue updating the slider to make sure the slider matches the currentLevel
         }
     }
+
+
 
 
 }

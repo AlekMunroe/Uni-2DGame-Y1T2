@@ -4682,6 +4682,7 @@ MonoBehaviour:
   debug_Health: 0
   playerSprite: {fileID: 423794797}
   worldController: {fileID: 1785879414}
+  cam: {fileID: 519420028}
   moveSpeed: 5
   canMoveDiagonally: 0
   canMove: 1
@@ -4711,6 +4712,24 @@ MonoBehaviour:
   isInventoryOpen: 0
   inventoryPanel: {fileID: 528834092}
   inventoryController: {fileID: 1007566096}
+  attackAudio:
+  - {fileID: 8300000, guid: b35a64d9b6c834c92bf1b0ecd78d0aaa, type: 3}
+  attackAudioPlay: 0
+  gainAudio:
+  - {fileID: 8300000, guid: cd76ad7c250084234b8d87c0fb1062cb, type: 3}
+  - {fileID: 8300000, guid: 879b3f0240cff4a4ebee721f29902248, type: 3}
+  - {fileID: 8300000, guid: 7d1508d451b8246e5bd20996b644478a, type: 3}
+  - {fileID: 8300000, guid: 6aaaabdef13d2474b8fefc802aa72b00, type: 3}
+  - {fileID: 8300000, guid: 2adfc7bdb90c544179031179b481d139, type: 3}
+  gainAudioPlay: 1
+  healthAudio:
+  - {fileID: 8300000, guid: cd76ad7c250084234b8d87c0fb1062cb, type: 3}
+  - {fileID: 8300000, guid: 879b3f0240cff4a4ebee721f29902248, type: 3}
+  - {fileID: 8300000, guid: 7d1508d451b8246e5bd20996b644478a, type: 3}
+  - {fileID: 8300000, guid: 6aaaabdef13d2474b8fefc802aa72b00, type: 3}
+  - {fileID: 8300000, guid: 2adfc7bdb90c544179031179b481d139, type: 3}
+  healthAudioPlay: 0
+  extraHealthAudioPlay: 0
 --- !u!61 &456210878
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6519,6 +6538,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6614,6 +6634,102 @@ MonoBehaviour:
   - {fileID: 1362748842}
   currentStaticCameraGameObjectPosition: 0
   speed: 5
+--- !u!82 &519420034
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &524881689
 GameObject:
   m_ObjectHideFlags: 0
@@ -8388,6 +8504,7 @@ MonoBehaviour:
   canFollowState: 0
   player: {fileID: 456210875}
   playerStopDistance: 1.5
+  cam: {fileID: 519420028}
   attackTime: 2
   attackAmount: 1.5
   playerTransform: {fileID: 0}
@@ -8404,6 +8521,28 @@ MonoBehaviour:
   canMoveDiagonally: 1
   deathAnimationTime: 2.1
   giveLevel: 0.5
+  deathAudio:
+  - {fileID: 8300000, guid: 45574017ead6844cc90ec3861aeda862, type: 3}
+  - {fileID: 8300000, guid: 298a300a10b044543922dba1ec1849c6, type: 3}
+  - {fileID: 8300000, guid: 1b689df6cefc74365926af2b39b42524, type: 3}
+  - {fileID: 8300000, guid: de9f6de5f6f3b4718b5f52946108fc91, type: 3}
+  deathAudioPlay: 2
+  attackAudio:
+  - {fileID: 8300000, guid: 1202e3a72e7af485da01f2af2a6f1b62, type: 3}
+  - {fileID: 8300000, guid: 6e4da72cee3f04e6ca4530e5e2e68a2a, type: 3}
+  - {fileID: 8300000, guid: 1bc889a9b8ab247f1b5d8c8316a4dc83, type: 3}
+  - {fileID: 8300000, guid: ec8110779bca0490c9bc0393e2edd771, type: 3}
+  - {fileID: 8300000, guid: f6ba4570db4334f7c98be6f82a6e0dd3, type: 3}
+  - {fileID: 8300000, guid: 64a52f416624f417e956f6f8d940c517, type: 3}
+  - {fileID: 8300000, guid: c1708cb89641b4c7e99564abffd7c070, type: 3}
+  - {fileID: 8300000, guid: c446131c688fa41519905e7876441d1b, type: 3}
+  - {fileID: 8300000, guid: ecd93339158174909919373eb5aa89fa, type: 3}
+  - {fileID: 8300000, guid: b35a64d9b6c834c92bf1b0ecd78d0aaa, type: 3}
+  - {fileID: 8300000, guid: 5374c28de70314bfcb171e8ab0b57e72, type: 3}
+  - {fileID: 8300000, guid: 5ddcc5613fda945f7a7a0e402af456c5, type: 3}
+  - {fileID: 8300000, guid: 924c6d124b5484b55a49360d0ccc148d, type: 3}
+  - {fileID: 8300000, guid: aa0631092ca3143d48e970ae1fd1d2ac, type: 3}
+  attackAudioPlay: 12
 --- !u!61 &694204396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12493,6 +12632,7 @@ MonoBehaviour:
   canFollowState: 0
   player: {fileID: 0}
   playerStopDistance: 0.5
+  cam: {fileID: 519420028}
   attackTime: 2
   attackAmount: 1
   playerTransform: {fileID: 0}
@@ -12509,6 +12649,28 @@ MonoBehaviour:
   canMoveDiagonally: 1
   deathAnimationTime: 2.1
   giveLevel: 0.5
+  deathAudio:
+  - {fileID: 8300000, guid: 45574017ead6844cc90ec3861aeda862, type: 3}
+  - {fileID: 8300000, guid: 298a300a10b044543922dba1ec1849c6, type: 3}
+  - {fileID: 8300000, guid: 1b689df6cefc74365926af2b39b42524, type: 3}
+  - {fileID: 8300000, guid: de9f6de5f6f3b4718b5f52946108fc91, type: 3}
+  deathAudioPlay: 2
+  attackAudio:
+  - {fileID: 8300000, guid: 1202e3a72e7af485da01f2af2a6f1b62, type: 3}
+  - {fileID: 8300000, guid: 6e4da72cee3f04e6ca4530e5e2e68a2a, type: 3}
+  - {fileID: 8300000, guid: 1bc889a9b8ab247f1b5d8c8316a4dc83, type: 3}
+  - {fileID: 8300000, guid: ec8110779bca0490c9bc0393e2edd771, type: 3}
+  - {fileID: 8300000, guid: f6ba4570db4334f7c98be6f82a6e0dd3, type: 3}
+  - {fileID: 8300000, guid: 64a52f416624f417e956f6f8d940c517, type: 3}
+  - {fileID: 8300000, guid: c1708cb89641b4c7e99564abffd7c070, type: 3}
+  - {fileID: 8300000, guid: c446131c688fa41519905e7876441d1b, type: 3}
+  - {fileID: 8300000, guid: ecd93339158174909919373eb5aa89fa, type: 3}
+  - {fileID: 8300000, guid: b35a64d9b6c834c92bf1b0ecd78d0aaa, type: 3}
+  - {fileID: 8300000, guid: 5374c28de70314bfcb171e8ab0b57e72, type: 3}
+  - {fileID: 8300000, guid: 5ddcc5613fda945f7a7a0e402af456c5, type: 3}
+  - {fileID: 8300000, guid: 924c6d124b5484b55a49360d0ccc148d, type: 3}
+  - {fileID: 8300000, guid: aa0631092ca3143d48e970ae1fd1d2ac, type: 3}
+  attackAudioPlay: 12
 --- !u!95 &996754479
 Animator:
   serializedVersion: 5
@@ -22384,12 +22546,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fa7cbb78906d4bd8957f20c1b91274d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 519420028}
   currentLevel: 1
   oldLevel: 0
   isUpdating: 0
   slider: {fileID: 1411970624}
   levelText: {fileID: 393664688}
   sliderIncreaseSpeed: 0.5
+  levelUpAudio:
+  - {fileID: 8300000, guid: 48ead65a42bd54c129d56b45f77b9874, type: 3}
+  - {fileID: 8300000, guid: a0cca89b67890468e8ccd39c65795312, type: 3}
+  - {fileID: 8300000, guid: 52bc7f6f2a5aa41b38f015c9c105b0b0, type: 3}
+  levelUpAudioPlay: 1
 --- !u!1 &1854173593
 GameObject:
   m_ObjectHideFlags: 0
@@ -23675,6 +23843,7 @@ MonoBehaviour:
   canFollowState: 0
   player: {fileID: 0}
   playerStopDistance: 0.5
+  cam: {fileID: 519420028}
   attackTime: 2
   attackAmount: 1
   playerTransform: {fileID: 0}
@@ -23691,6 +23860,28 @@ MonoBehaviour:
   canMoveDiagonally: 1
   deathAnimationTime: 2.1
   giveLevel: 0.5
+  deathAudio:
+  - {fileID: 8300000, guid: 45574017ead6844cc90ec3861aeda862, type: 3}
+  - {fileID: 8300000, guid: 298a300a10b044543922dba1ec1849c6, type: 3}
+  - {fileID: 8300000, guid: 1b689df6cefc74365926af2b39b42524, type: 3}
+  - {fileID: 8300000, guid: de9f6de5f6f3b4718b5f52946108fc91, type: 3}
+  deathAudioPlay: 2
+  attackAudio:
+  - {fileID: 8300000, guid: 1202e3a72e7af485da01f2af2a6f1b62, type: 3}
+  - {fileID: 8300000, guid: 6e4da72cee3f04e6ca4530e5e2e68a2a, type: 3}
+  - {fileID: 8300000, guid: 1bc889a9b8ab247f1b5d8c8316a4dc83, type: 3}
+  - {fileID: 8300000, guid: ec8110779bca0490c9bc0393e2edd771, type: 3}
+  - {fileID: 8300000, guid: f6ba4570db4334f7c98be6f82a6e0dd3, type: 3}
+  - {fileID: 8300000, guid: 64a52f416624f417e956f6f8d940c517, type: 3}
+  - {fileID: 8300000, guid: c1708cb89641b4c7e99564abffd7c070, type: 3}
+  - {fileID: 8300000, guid: c446131c688fa41519905e7876441d1b, type: 3}
+  - {fileID: 8300000, guid: ecd93339158174909919373eb5aa89fa, type: 3}
+  - {fileID: 8300000, guid: b35a64d9b6c834c92bf1b0ecd78d0aaa, type: 3}
+  - {fileID: 8300000, guid: 5374c28de70314bfcb171e8ab0b57e72, type: 3}
+  - {fileID: 8300000, guid: 5ddcc5613fda945f7a7a0e402af456c5, type: 3}
+  - {fileID: 8300000, guid: 924c6d124b5484b55a49360d0ccc148d, type: 3}
+  - {fileID: 8300000, guid: aa0631092ca3143d48e970ae1fd1d2ac, type: 3}
+  attackAudioPlay: 12
 --- !u!61 &2066919056
 BoxCollider2D:
   m_ObjectHideFlags: 0

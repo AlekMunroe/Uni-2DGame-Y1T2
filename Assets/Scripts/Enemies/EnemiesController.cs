@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.Sprites;
+using UnityEngine.Audio;
 
 public class EnemiesController : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class EnemiesController : MonoBehaviour
     public GameObject player;
 
     public float playerStopDistance = 1.5f;
+
+    public GameObject cam;
 
     [Header("Attacking")]
     public float attackTime = 2f;
@@ -67,6 +70,14 @@ public class EnemiesController : MonoBehaviour
     [Header("Levelling")]
     public float giveLevel = 0.5f;
 
+    [Header("Audio")]
+    AudioSource audioSource;
+    public AudioClip[] deathAudio;
+    public int deathAudioPlay;
+
+    public AudioClip[] attackAudio;
+    public int attackAudioPlay;
+
 
     void Start()
     {
@@ -99,6 +110,9 @@ public class EnemiesController : MonoBehaviour
         //Set the sprite and animator
         thisSprite = this.gameObject;
         animator = this.GetComponent<Animator>();
+
+        //Get the audio
+        audioSource = cam.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -171,12 +185,15 @@ public class EnemiesController : MonoBehaviour
 
             //Calculate the level to give, the higher your level the harder it gets
             giveLevel = currentLevel / (Mathf.Pow(Mathf.Floor(currentLevel), 2) / 2); //I dont understand this properly, I used google for this. Mathf.Pow apparently squares the number
-
-            if(debug_Level) Debug.Log("Gave level: " + giveLevel);
         }
 
+        //Format giveLevel correctly so it is only to two decimal places
+        giveLevel = Mathf.Floor(giveLevel * 100) / 100.0f;
+
+        if (debug_Level) Debug.Log("Gave level: " + giveLevel);
+
         worldController.GetComponent<LevellingController>().currentLevel = giveLevel + worldController.GetComponent<LevellingController>().currentLevel;
-        worldController.GetComponent<LevellingController>().UpdateUI();
+        //worldController.GetComponent<LevellingController>().UpdateUI();
 
         //This should be switched for an animation with a fade coming after
         Destroy(this.gameObject);
@@ -324,12 +341,22 @@ public class EnemiesController : MonoBehaviour
 
     void PlayAttackAnimation()
     {
+        //Animation
         animator.Play("Attack");
+
+        //Audio
+        audioSource.clip = attackAudio[attackAudioPlay]; //Add attackAudio to the audioSource
+        audioSource.Play(); //Play the audio
     }
 
     void PlayDeathAnimation()
     {
+        //Animation
         animator.Play("Die");
+
+        //Audio
+        audioSource.clip = deathAudio[deathAudioPlay]; //Add deathAudio to the audioSource
+        audioSource.Play(); //Play the audio
     }
     
 
