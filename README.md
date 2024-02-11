@@ -2,6 +2,11 @@
 "Breakout"
 
 <!-- ROADMAP -->
+## V8
+
+- [x] Levelling system
+- [ ] Sound effects
+
 ## V7
 
 - [x] Enemy animations for Idle, move, attack and die
@@ -9,12 +14,6 @@
 - [x] Updated death function to IEnumerator
 - [x] Optimised how the enemy checks how close it is to the player
 - [ ] XP/Level system
-
-What has been discontinued:
-* The box system has been scrapped as it is too complicated
-
-What is next:
-* Adding an XP/Level system where when enemies die, the players level will increase by a random amount based on two floats which is set on the enemy controller
 
 ## V6
 

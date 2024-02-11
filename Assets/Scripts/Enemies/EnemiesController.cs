@@ -11,12 +11,15 @@ public class EnemiesController : MonoBehaviour
     public bool debug_Health;
     public bool debug_Death;
     public bool debug_Attacking;
+    public bool debug_Level;
 
     [Header("Enemies Info")]
     public bool canAttack;
     public bool canFollow;
     public bool canDropItem;
     public float health = 2;
+
+    public bool calculateLevel;
 
     public bool canAttackState;
     public bool canFollowState;
@@ -60,6 +63,10 @@ public class EnemiesController : MonoBehaviour
     public bool canMoveDiagonally = true;
 
     public float deathAnimationTime = 2.1f;
+
+    [Header("Levelling")]
+    public float giveLevel = 0.5f;
+
 
     void Start()
     {
@@ -150,6 +157,26 @@ public class EnemiesController : MonoBehaviour
 
             droppedItem.transform.parent = dropParent.transform; //Change the parent before it is destroyed
         }
+
+        //Update level
+        if (calculateLevel)
+        {
+            float currentLevel = worldController.GetComponent<LevellingController>().currentLevel + 0.1f;
+
+            //Error correction, make the level act as level 1
+            if(currentLevel < 1)
+            {
+                currentLevel = 1;
+            }
+
+            //Calculate the level to give, the higher your level the harder it gets
+            giveLevel = currentLevel / (Mathf.Pow(Mathf.Floor(currentLevel), 2) / 2); //I dont understand this properly, I used google for this. Mathf.Pow apparently squares the number
+
+            if(debug_Level) Debug.Log("Gave level: " + giveLevel);
+        }
+
+        worldController.GetComponent<LevellingController>().currentLevel = giveLevel + worldController.GetComponent<LevellingController>().currentLevel;
+        worldController.GetComponent<LevellingController>().UpdateUI();
 
         //This should be switched for an animation with a fade coming after
         Destroy(this.gameObject);
