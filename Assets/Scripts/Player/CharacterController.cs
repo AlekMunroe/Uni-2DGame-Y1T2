@@ -61,14 +61,16 @@ public class CharacterController : MonoBehaviour
     public float attackDelay_Fire = 1.5f;
     public bool canAttack_Fire;
 
-    
+
 
     //Health
     [Header("Health")]
+    public float startingHealth = 3f; //Used for saving/getting the saved health
     public float health = 3f;
     public float maxHealth;
     float defaultHealth;
     float internalHealthCounter; //This is used to remember the last health amount temporarily
+    public bool useHalfHealth = true;
 
     //Items
     [Header("Items")]
@@ -106,23 +108,11 @@ public class CharacterController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         internalHealthCounter = health;
         defaultMoveSpeed = moveSpeed;
-        defaultHealth = health;
+        health = startingHealth;
+        defaultHealth = startingHealth;
         lastMovement = Vector2.down;
 
-        //Setting maxHealth correctly
-        if (defaultHealth == 3)
-        {
-            maxHealth = defaultHealth + 1;
-        }
-        else if (defaultHealth == 6)
-        {
-            maxHealth = defaultHealth + 2;
-        }
-        else
-        {
-            //Used as the script is setup for health beign either 3 or 6
-            Debug.LogError("Health must be either 3 or 6");
-        }
+        InitialiseHealth();
 
         //Disable the attack spots
         foreach (GameObject spot in AttackSpots)
@@ -473,12 +463,72 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+
+
+
+    //----------Health----------
+
+    //Initialise health
+    void InitialiseHealth()
+    {
+        if (PlayerPrefs.HasKey("PlayerHealth") && PlayerPrefs.GetFloat("PlayerHealth") > 0.1f)
+        {
+            if (PlayerPrefs.GetFloat("PlayerHealth") < startingHealth)
+            {
+                health = PlayerPrefs.GetFloat("PlayerHealth");
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("PlayerHealth", startingHealth);
+            health = startingHealth;
+        }
+
+        //Setting maxHealth correctly
+        if (useHalfHealth)
+        {
+            maxHealth = defaultHealth + 2;
+        }
+        else if (useHalfHealth == false)
+        {
+            maxHealth = defaultHealth + 1;
+        }
+        else
+        {
+            //Used as the script is setup for health beign either 3 or 6
+            Debug.LogError("startingHealth must be either 3 or 6");
+        }
+
+        worldController.GetComponent<UI_HealthController>().maxHealth = maxHealth;
+
+        //Update the health UI
+        worldController.GetComponent<UI_HealthController>().activeHearts = health;
+
+        if (useHalfHealth)
+        {
+            worldController.GetComponent<UI_HealthController>().SetHearts_HalfHeart();
+        }
+        else if (useHalfHealth == false)
+        {
+            worldController.GetComponent<UI_HealthController>().SetHearts();
+        }
+    }
+
     //Check death
     public void checkDeath()
     {
         if(health < 0.1f)
         {
+            //The player died
             if (debug_Death) Debug.Log("Player died");
+
+            FreezeControls();
+            worldController.GetComponent<UI_Death>().PlayerDied();
+        }
+        else
+        {
+            //The player did not die
+            PlayerPrefs.SetFloat("PlayerHealth", health);
         }
     }
 
@@ -493,7 +543,7 @@ public class CharacterController : MonoBehaviour
             health = health - attackAmount;
 
             internalHealthCounter = health;
-            worldController.GetComponent<UI_HealthController>().RemoveHeart();
+            worldController.GetComponent<UI_HealthController>().RemoveHeart(attackAmount);
 
             //Check if the player is dead
             checkDeath();

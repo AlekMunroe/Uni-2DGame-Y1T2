@@ -18,9 +18,57 @@ public class WorldController : MonoBehaviour
     [Header("Door")]
     public bool isDoorLocked_Door = true;
     public bool isKeyRequired_Door = true;
+    public bool isUsingKeyLink = false; //Used if the key is within another object e.g. an enemy
+    public int keyLinkIdentifier;
     public string KeyRequired_Door;
     public Sprite doorClosedSprite_Door;
     public Sprite doorOpenSprite_Door;
+
+    public int Identifier;
+
+    private void Start()
+    {
+        if(Identifier < 1000)
+        {
+            Debug.LogError("Set Identifier to an int greater than 1000.");
+        }
+
+        if (PlayerPrefs.GetInt("SaveState_" + Identifier + "_Door") == 1) //If the door has previously been unlocked
+        {
+            //Open the door
+            isKeyRequired_Door = false;
+            isDoorLocked_Door = false;
+            RunTask();
+
+            //Destroy the key
+            GameObject[] allObjects = FindObjectsOfType<GameObject>();
+
+            foreach (GameObject obj in allObjects)
+            {
+                if (obj.name == KeyRequired_Door)
+                {
+                    Destroy(obj);
+                    break; // Exit the loop if the object is found
+                }
+
+                if (isUsingKeyLink)
+                {
+                    Identifiers identifiersComponent = obj.GetComponent<Identifiers>();
+                    if (identifiersComponent == null)
+                    {
+                        continue; // Skip this iteration if the GameObject does not have an Identifiers component
+                    }
+
+                    if (identifiersComponent.Identifier == keyLinkIdentifier) // Check if the Identifier matches the keyLinkIdentifier
+                    {
+                        Debug.Log("Identified enemy");
+                        Destroy(obj);
+                        break; // Exit the loop once the identified enemy is found and destroyed
+                    }
+                }
+            }
+        }
+    }
 
     public void RunTask()
     {
@@ -67,6 +115,9 @@ public class WorldController : MonoBehaviour
 
                 //Replace the used key item with null, making the slot empty
                 Player.GetComponent<CharacterController>().heldItems[keyIndex] = null;
+
+                //Save the unlock state
+                PlayerPrefs.SetInt("SaveState_" + Identifier + "_Door", 1);
             }
             else
             {

@@ -25,10 +25,10 @@ public class UI_HealthController : MonoBehaviour
 
     public void Start()
     {
-        activeHearts = Player.GetComponent<CharacterController>().health;
-        defaultHealth = activeHearts;
+        //activeHearts = Player.GetComponent<CharacterController>().health;
+        defaultHealth = Player.GetComponent<CharacterController>().startingHealth;
 
-        maxHealth = Player.GetComponent<CharacterController>().maxHealth;
+        //smaxHealth = Player.GetComponent<CharacterController>().maxHealth;
     }
 
     public void AddHeart()
@@ -39,13 +39,13 @@ public class UI_HealthController : MonoBehaviour
 
             if (debug_HeartCounter) Debug.Log("Added heart: " + activeHearts);
 
-            if (defaultHealth == 3)
-            {
-                SetHearts();
-            }
-            else if (defaultHealth == 6)
+            if (Player.GetComponent<CharacterController>().useHalfHealth)
             {
                 SetHearts_HalfHeart();
+            }
+            else if (Player.GetComponent<CharacterController>().useHalfHealth == false)
+            {
+                SetHearts();
             }
         }
     }
@@ -72,21 +72,21 @@ public class UI_HealthController : MonoBehaviour
         }
     }
 
-    public void RemoveHeart()
+    public void RemoveHeart(float attackAmount)
     {
         if (activeHearts <= maxHealth)
         {
-            activeHearts = activeHearts - 1;
+            activeHearts = activeHearts - attackAmount;
 
             if(debug_HeartCounter) Debug.Log("Removed heart: " + activeHearts);
 
-            if (defaultHealth == 3)
-            {
-                SetHearts();
-            }
-            else if (defaultHealth == 6)
+            if (Player.GetComponent<CharacterController>().useHalfHealth)
             {
                 SetHearts_HalfHeart();
+            }
+            else if (Player.GetComponent<CharacterController>().useHalfHealth == false)
+            {
+                SetHearts();
             }
         }
     }
@@ -94,10 +94,10 @@ public class UI_HealthController : MonoBehaviour
 
     public void SetHearts()
     {
-        if(activeHearts < maxHealth)
+        if (activeHearts < maxHealth)
         {
             //Set hearts
-            if(activeHearts == 0)
+            if (activeHearts == 0)
             {
                 //Remove all hearts
                 HeartIcons[0].gameObject.SetActive(false);
@@ -164,7 +164,7 @@ public class UI_HealthController : MonoBehaviour
                 HeartIcons[2].gameObject.SetActive(false);
                 HeartIcons[3].gameObject.SetActive(false);
             }
-            else if (activeHearts == 1)
+            else if (activeHearts == 0.5)
             {
                 //0.5 hearts
                 HeartIcons[0].gameObject.SetActive(true);
@@ -176,7 +176,7 @@ public class UI_HealthController : MonoBehaviour
                 HeartIcons[3].gameObject.SetActive(false);
 
             }
-            else if (activeHearts == 2)
+            else if (activeHearts == 1)
             {
                 //1 heart
                 HeartIcons[0].gameObject.SetActive(true);
@@ -189,7 +189,7 @@ public class UI_HealthController : MonoBehaviour
 
 
             }
-            else if (activeHearts == 3)
+            else if (activeHearts == 1.5)
             {
                 //1.5 hearts
                 HeartIcons[0].gameObject.SetActive(true);
@@ -201,7 +201,7 @@ public class UI_HealthController : MonoBehaviour
                 HeartIcons[3].gameObject.SetActive(false);
 
             }
-            else if (activeHearts == 4)
+            else if (activeHearts == 2)
             {
                 //2 hearts
 
@@ -213,7 +213,7 @@ public class UI_HealthController : MonoBehaviour
                 HeartIcons[2].gameObject.SetActive(false);
                 HeartIcons[3].gameObject.SetActive(false);
             }
-            else if (activeHearts == 5)
+            else if (activeHearts == 2.5)
             {
                 //2.5 hearts
 
@@ -226,7 +226,7 @@ public class UI_HealthController : MonoBehaviour
                 HeartIcons[3].gameObject.SetActive(false);
 
             }
-            else if (activeHearts == 6)
+            else if (activeHearts == 3)
             {
                 //3 hearts
                 HeartIcons[0].gameObject.SetActive(true);
@@ -235,7 +235,7 @@ public class UI_HealthController : MonoBehaviour
 
                 HeartIcons[3].gameObject.SetActive(false); //Extra heart
             }
-            else if (activeHearts == 7) //Used only if extra heart is used
+            else if (activeHearts == 3.5) //Used only if extra heart is used
             {
                 //3.5 hearts
                 HeartIcons[0].gameObject.SetActive(true);
@@ -245,7 +245,7 @@ public class UI_HealthController : MonoBehaviour
                 HeartIcons[3].gameObject.SetActive(true); //Extra heart
                 HeartIcons[3].gameObject.GetComponent<Image>().sprite = HalfHeart;
             }
-            else if (activeHearts == 8) //Used only if extra heart is used
+            else if (activeHearts == 4) //Used only if extra heart is used
             {
                 //4 hearts
                 HeartIcons[0].gameObject.SetActive(true);
