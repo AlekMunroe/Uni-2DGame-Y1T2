@@ -620,8 +620,8 @@ public class CharacterController : MonoBehaviour
                     animator.Play("WalkSide");
                     lastMovement = Vector2.right;
 
-                    //Flip sprite (Normal)
-                    bool isFlipped = false;
+                    //Flip sprite (Flipped)
+                    bool isFlipped = true;
                     FlipPlayerSprite(isFlipped);
 
                     if (debug_Movement) Debug.Log("Walk Right");
@@ -633,7 +633,7 @@ public class CharacterController : MonoBehaviour
                     lastMovement = Vector2.left;
 
                     //Flip sprite (Normal)
-                    bool isFlipped = true;
+                    bool isFlipped = false;
                     FlipPlayerSprite(isFlipped);
 
                     if (debug_Movement) Debug.Log("Walk Left");
@@ -682,8 +682,8 @@ public class CharacterController : MonoBehaviour
             //Idle right
             animator.Play("IdleRight");
 
-            //Flip sprite (Normal)
-            bool isFlipped = false;
+            //Flip sprite (Flipped)
+            bool isFlipped = true;
             FlipPlayerSprite(isFlipped);
 
             if (debug_Idle) Debug.Log("Idle Right");
@@ -693,8 +693,8 @@ public class CharacterController : MonoBehaviour
             //Idle left
             animator.Play("IdleLeft");
 
-            //Flip sprite (Flipped)
-            bool isFlipped = true;
+            //Flip sprite (Normal)
+            bool isFlipped = false;
             FlipPlayerSprite(isFlipped);
 
             if (debug_Idle) Debug.Log("Idle Left");
@@ -738,8 +738,8 @@ public class CharacterController : MonoBehaviour
                 //Melee right
                 animator.Play("Attack_Melee_Right");
 
-                //Flip sprite (Normal)
-                bool isFlipped = false;
+                //Flip sprite (Flipped)
+                bool isFlipped = true;
                 FlipPlayerSprite(isFlipped);
 
                 if (debug_Attacking) Debug.Log("Melee Right");
@@ -749,8 +749,8 @@ public class CharacterController : MonoBehaviour
                 //Melee left
                 animator.Play("Attack_Melee_Left");
 
-                //Flip sprite (Flipped)
-                bool isFlipped = true;
+                //Flip sprite (Normal)
+                bool isFlipped = false;
                 FlipPlayerSprite(isFlipped);
 
                 if (debug_Attacking) Debug.Log("Melee Left");

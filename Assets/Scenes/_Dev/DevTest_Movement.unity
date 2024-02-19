@@ -4343,7 +4343,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 101
-  m_Sprite: {fileID: 1507411286, guid: f4037f83a795140deb5ad37d454cd24d, type: 3}
+  m_Sprite: {fileID: 2125892604, guid: 4896c84a3948a4e89a4b4c08c8cd98e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4407,7 +4407,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.8125, y: 1.3125}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -4818,7 +4818,7 @@ MonoBehaviour:
   playerSprite: {fileID: 423794797}
   worldController: {fileID: 1785879414}
   cam: {fileID: 519420028}
-  moveSpeed: 5
+  moveSpeed: 4
   canMoveDiagonally: 0
   canMove: 1
   canAttack: 1
