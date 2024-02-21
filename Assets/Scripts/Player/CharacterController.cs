@@ -112,6 +112,8 @@ public class CharacterController : MonoBehaviour
         defaultHealth = startingHealth;
         lastMovement = Vector2.down;
 
+        InitialisePosition();
+
         InitialiseHealth();
 
         //Disable the attack spots
@@ -598,6 +600,23 @@ public class CharacterController : MonoBehaviour
 
             //Check if the player is dead
             checkDeath();
+        }
+    }
+
+
+
+
+    //----------LOCATION----------
+    void InitialisePosition()
+    {
+        if (PlayerPrefs.HasKey("Player_PositionX") && PlayerPrefs.HasKey("Player_PositionY")) //If the positions exist (A save state has been set)
+        {
+            //Get the saved positions
+            float savedX = PlayerPrefs.GetFloat("Player_PositionX");
+            float savedY = PlayerPrefs.GetFloat("Player_PositionY");
+
+            //Set the player to the saved positions
+            this.transform.position = new Vector3(savedX, savedY, 0);
         }
     }
 

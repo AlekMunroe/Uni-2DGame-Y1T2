@@ -26,48 +26,59 @@ public class WorldController : MonoBehaviour
 
     public int Identifier;
 
+    [Header("Save State")]
+    public float camRoomLocationX;
+    public float camRoomLocationY;
+    public int thisCameraNextLocation;
+
     private void Start()
     {
-        if(Identifier < 1000)
+        //Doors
+        if (TaskName == "LockedDoor" || TaskName == "UnlockedDoor" || TaskName == "Door")
         {
-            Debug.LogError("Set Identifier to an int greater than 1000.");
-        }
-
-        if (PlayerPrefs.GetInt("SaveState_" + Identifier + "_Door") == 1) //If the door has previously been unlocked
-        {
-            //Open the door
-            isKeyRequired_Door = false;
-            isDoorLocked_Door = false;
-            RunTask();
-
-            //Destroy the key
-            GameObject[] allObjects = FindObjectsOfType<GameObject>();
-
-            foreach (GameObject obj in allObjects)
+            if (Identifier < 1000)
             {
-                if (obj.name == KeyRequired_Door)
-                {
-                    Destroy(obj);
-                    break; // Exit the loop if the object is found
-                }
+                Debug.LogError("Set Identifier to an int greater than 1000.");
+            }
 
-                if (isUsingKeyLink)
+            if (PlayerPrefs.GetInt("SaveState_" + Identifier + "_Door") == 1) //If the door has previously been unlocked
+            {
+                //Open the door
+                isKeyRequired_Door = false;
+                isDoorLocked_Door = false;
+                RunTask();
+
+                //Destroy the key
+                GameObject[] allObjects = FindObjectsOfType<GameObject>();
+
+                foreach (GameObject obj in allObjects)
                 {
-                    Identifiers identifiersComponent = obj.GetComponent<Identifiers>();
-                    if (identifiersComponent == null)
+                    if (obj.name == KeyRequired_Door)
                     {
-                        continue; // Skip this iteration if the GameObject does not have an Identifiers component
+                        Destroy(obj);
+                        break; // Exit the loop if the object is found
                     }
 
-                    if (identifiersComponent.Identifier == keyLinkIdentifier) // Check if the Identifier matches the keyLinkIdentifier
+                    if (isUsingKeyLink)
                     {
-                        Debug.Log("Identified enemy");
-                        Destroy(obj);
-                        break; // Exit the loop once the identified enemy is found and destroyed
+                        Identifiers identifiersComponent = obj.GetComponent<Identifiers>();
+                        if (identifiersComponent == null)
+                        {
+                            continue; // Skip this iteration if the GameObject does not have an Identifiers component
+                        }
+
+                        if (identifiersComponent.Identifier == keyLinkIdentifier) // Check if the Identifier matches the keyLinkIdentifier
+                        {
+                            Debug.Log("Identified enemy");
+                            Destroy(obj);
+                            break; // Exit the loop once the identified enemy is found and destroyed
+                        }
                     }
                 }
             }
         }
+
+        //Save states
     }
 
     public void RunTask()
@@ -75,6 +86,10 @@ public class WorldController : MonoBehaviour
         if (TaskName == "LockedDoor" || TaskName == "UnlockedDoor" || TaskName == "Door")
         {
             RunTask_Door();
+        }
+        else if(TaskName == "SaveLocation")
+        {
+            RunTask_SaveLocation();
         }
         else
         {
@@ -136,5 +151,23 @@ public class WorldController : MonoBehaviour
             //Change the colliders
             thisSprite.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         }
+    }
+
+
+
+    //----------SAVE LOCATION----------
+    public void RunTask_SaveLocation()
+    {
+        //Get the position of the save location
+        Vector3 currentPosition = this.transform.position;
+
+        //Save the X and Y location to be used later
+        PlayerPrefs.SetFloat("Player_PositionX", currentPosition.x);
+        PlayerPrefs.SetFloat("Player_PositionY", currentPosition.y);
+
+        //Save the camera's location
+        PlayerPrefs.SetFloat("Camera_PositionX", camRoomLocationX);
+        PlayerPrefs.SetFloat("Camera_PositionY", camRoomLocationY);
+        PlayerPrefs.SetInt("Camera_CameraNextLocation", thisCameraNextLocation);
     }
 }

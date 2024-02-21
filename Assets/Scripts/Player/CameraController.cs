@@ -17,6 +17,7 @@ public class CameraController : MonoBehaviour
     public int currentStaticCameraGameObjectPosition;
     public float speed = 5;
     private bool isMoving = false;
+    bool usedSavePosition;
 
     //Used by both camera types
     Vector3 currentPosition;
@@ -37,10 +38,16 @@ public class CameraController : MonoBehaviour
             Debug.LogError("You must enable either followPlayer or staticCamera. Not both.");
         }
 
-        //Setting default position
-        if (staticCamera)
+        //Setting the position
+        //Initialise the camera position from saved preferences
+        InitialisePosition();
+
+        //If the camera does not do anything in InitialisePosition
+        if (staticCamera && !usedSavePosition)
         {
+            Debug.Log("2");
             currentPosition = new Vector3(staticCameraPosition[0].transform.position.x, staticCameraPosition[0].transform.position.y, -10);
+            this.transform.position = currentPosition;
         }
     }
 
@@ -80,6 +87,28 @@ public class CameraController : MonoBehaviour
         if (Vector3.Distance(transform.position, newPosition) < 0.01f)
         {
             transform.position = newPosition; //Snap the camera in place of the target position (Making sure the camera is exact)
+        }
+    }
+
+    void InitialisePosition()
+    {
+        if (PlayerPrefs.HasKey("Camera_PositionX") && PlayerPrefs.HasKey("Camera_PositionY")) //If the positions exist (A save state has been set)
+        {
+            Debug.Log("1");
+            usedSavePosition = true;
+
+            //Get the saved positions
+            float savedX = PlayerPrefs.GetFloat("Camera_PositionX");
+            float savedY = PlayerPrefs.GetFloat("Camera_PositionY");
+            currentStaticCameraGameObjectPosition = PlayerPrefs.GetInt("Camera_CameraNextLocation");
+
+            //Set the camera to the saved positions
+            currentPosition = new Vector3(savedX, savedY, -10);
+            this.transform.position = currentPosition;
+        }
+        else
+        {
+            currentPosition = Vector3.zero; //Default to zero if no saved position
         }
     }
 }

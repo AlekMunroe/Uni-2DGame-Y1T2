@@ -2,6 +2,14 @@
 "Breakout"
 
 <!-- ROADMAP -->
+## V12
+
+- [x] Added save states for room locations
+- [ ] Allow the player to hold health items
+- [ ] The rest of the sound effects
+- [ ] Background music
+- [ ] Updated UI
+
 ## V11
 
 - [x] Updated player spritesheet

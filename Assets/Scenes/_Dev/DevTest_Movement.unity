@@ -2243,6 +2243,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270715985}
   m_CullTransparentMesh: 1
+--- !u!1 &277518412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 277518413}
+  m_Layer: 0
+  m_Name: SaveLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &277518413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277518412}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.8990943, y: -0.080136396, z: 0.05656181}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 620362267}
+  m_Father: {fileID: 608118819}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &283569835
 GameObject:
   m_ObjectHideFlags: 0
@@ -7552,8 +7584,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556631333}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0036618065, y: -0.20664032, z: 0}
-  m_LocalScale: {x: 0.3174603, y: 0.079365075, z: 1}
+  m_LocalPosition: {x: 0.0036618065, y: 0.04787, z: 0}
+  m_LocalScale: {x: 0.3174603, y: 0.58837247, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 531375889}
@@ -7583,6 +7615,9 @@ MonoBehaviour:
   doorClosedSprite_Door: {fileID: 21300000, guid: 1f3d0a433fe54477aa2b87f3085401b5, type: 3}
   doorOpenSprite_Door: {fileID: 21300000, guid: b17af4b01d36a460fad2c58bcc875dd3, type: 3}
   Identifier: 1002
+  camRoomLocationX: 0
+  camRoomLocationY: 0
+  thisCameraNextLocation: 0
 --- !u!61 &556631336
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7925,6 +7960,7 @@ Transform:
   - {fileID: 305640855}
   - {fileID: 1323429752}
   - {fileID: 531375889}
+  - {fileID: 277518413}
   m_Father: {fileID: 1407092151}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8186,6 +8222,145 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616732779}
   m_CullTransparentMesh: 1
+--- !u!1 &620362266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 620362267}
+  - component: {fileID: 620362270}
+  - component: {fileID: 620362269}
+  - component: {fileID: 620362268}
+  m_Layer: 0
+  m_Name: SaveLocation
+  m_TagString: WorldCollider
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &620362267
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620362266}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.0299752, y: 27.51, z: 0}
+  m_LocalScale: {x: 2, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 277518413}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &620362268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620362266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9627455f365334740bb29009b5328105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug_Doors: 0
+  Player: {fileID: 456210875}
+  TaskName: SaveLocation
+  thisSprite: {fileID: 0}
+  isDoorLocked_Door: 0
+  isKeyRequired_Door: 0
+  isUsingKeyLink: 0
+  keyLinkIdentifier: 0
+  KeyRequired_Door: 
+  doorClosedSprite_Door: {fileID: 0}
+  doorOpenSprite_Door: {fileID: 0}
+  Identifier: 0
+  camRoomLocationX: 0
+  camRoomLocationY: 30
+  thisCameraNextLocation: 3
+--- !u!61 &620362269
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620362266}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!212 &620362270
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620362266}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 102
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &645030334
 GameObject:
   m_ObjectHideFlags: 0
@@ -13271,6 +13446,10 @@ MonoBehaviour:
   - characterName: Sign
     line: 'Description: The trigger is visable for this demo.'
     signSprite: {fileID: 21300000, guid: 5ac156ca16e484cb58d9e16f45ea0e38, type: 3}
+  - characterName: Sign
+    line: The white box at the door enterence is a save state. The player's location
+      will be saved there and they will respawn back there upon failiure.
+    signSprite: {fileID: 21300000, guid: 5ac156ca16e484cb58d9e16f45ea0e38, type: 3}
   dialogueDelay: 0
 --- !u!61 &1055459094
 BoxCollider2D:
@@ -13627,7 +13806,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133433707}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 2.698303, z: 10}
+  m_LocalPosition: {x: 2.0000002, y: 2.698303, z: 10}
   m_LocalScale: {x: 2, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14307,8 +14486,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1230289049}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0036618065, y: -0.20664021, z: 0}
-  m_LocalScale: {x: 0.3174603, y: 0.079365075, z: 1}
+  m_LocalPosition: {x: 0.0036618065, y: 0.04787, z: 0}
+  m_LocalScale: {x: 0.3174603, y: 0.58837247, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 305640855}
@@ -14416,6 +14595,9 @@ MonoBehaviour:
   doorClosedSprite_Door: {fileID: 21300000, guid: 1f3d0a433fe54477aa2b87f3085401b5, type: 3}
   doorOpenSprite_Door: {fileID: 21300000, guid: b17af4b01d36a460fad2c58bcc875dd3, type: 3}
   Identifier: 1000
+  camRoomLocationX: 0
+  camRoomLocationY: 0
+  thisCameraNextLocation: 0
 --- !u!1 &1238831876
 GameObject:
   m_ObjectHideFlags: 0
@@ -22124,7 +22306,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634430939}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 4.51, z: 10}
+  m_LocalPosition: {x: 2.0000002, y: 4.51, z: 10}
   m_LocalScale: {x: 2, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22299,8 +22481,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684180866}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0036618065, y: -0.20664017, z: 0}
-  m_LocalScale: {x: 0.3174603, y: 0.079365075, z: 1}
+  m_LocalPosition: {x: 0.0036618065, y: 0.04787, z: 0}
+  m_LocalScale: {x: 0.3174603, y: 0.58837247, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1323429752}
@@ -22330,6 +22512,9 @@ MonoBehaviour:
   doorClosedSprite_Door: {fileID: 21300000, guid: 1f3d0a433fe54477aa2b87f3085401b5, type: 3}
   doorOpenSprite_Door: {fileID: 21300000, guid: b17af4b01d36a460fad2c58bcc875dd3, type: 3}
   Identifier: 1001
+  camRoomLocationX: 0
+  camRoomLocationY: 0
+  thisCameraNextLocation: 0
 --- !u!61 &1684180869
 BoxCollider2D:
   m_ObjectHideFlags: 0
