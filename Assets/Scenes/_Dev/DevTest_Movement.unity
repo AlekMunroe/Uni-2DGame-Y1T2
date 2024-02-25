@@ -4875,7 +4875,9 @@ MonoBehaviour:
   startingHealth: 3
   health: 3
   maxHealth: 0
+  defaultHealth: 0
   useHalfHealth: 1
+  healthController: {fileID: 1785879416}
   heldItems: []
   pickupDelayTime: 0.25
   isInventoryOpen: 0
@@ -9014,6 +9016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Identifier: 1004
+  IdentifierName: 
 --- !u!1 &699402039
 GameObject:
   m_ObjectHideFlags: 0
@@ -13168,7 +13171,7 @@ GameObject:
   - component: {fileID: 1007566096}
   m_Layer: 5
   m_Name: InventoryItems
-  m_TagString: Untagged
+  m_TagString: InventoryController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13241,6 +13244,10 @@ MonoBehaviour:
     itemSprite: {fileID: 21300000, guid: 3cc358f62542b4b71b68be8ea900e941, type: 3}
   - itemName: Key02
     itemSprite: {fileID: 21300000, guid: 83d28ed7600d943e3a5f0629b3dca66b, type: 3}
+  - itemName: Heart
+    itemSprite: {fileID: 21300000, guid: f75fb3e45a99f40b7adc758d1407474d, type: 3}
+  - itemName: Heart_Extra
+    itemSprite: {fileID: 21300000, guid: 526927592bd694e0bb5792583fae6c26, type: 3}
   slotsParent: {fileID: 1007566094}
   maxSlotCount: 10
   cellSize: {x: 200, y: 200}
@@ -14642,6 +14649,8 @@ GameObject:
   - component: {fileID: 1240438202}
   - component: {fileID: 1240438203}
   - component: {fileID: 1240438204}
+  - component: {fileID: 1240438205}
+  - component: {fileID: 1240438206}
   m_Layer: 0
   m_Name: Heart
   m_TagString: Health
@@ -14742,6 +14751,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.09, y: 0.11}
   m_EdgeRadius: 0
+--- !u!114 &1240438205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240438201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd425adb7f2a744afae023bf3593e015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Identifier: 1005
+  IdentifierName: Heart_001
+--- !u!114 &1240438206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240438201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ddb1066452584638ad55c7d8e63233e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1243649211
 GameObject:
   m_ObjectHideFlags: 0
@@ -16975,6 +17010,8 @@ GameObject:
   - component: {fileID: 1351692937}
   - component: {fileID: 1351692938}
   - component: {fileID: 1351692939}
+  - component: {fileID: 1351692940}
+  - component: {fileID: 1351692941}
   m_Layer: 0
   m_Name: Heart_Extra
   m_TagString: Health
@@ -17075,6 +17112,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.09, y: 0.11}
   m_EdgeRadius: 0
+--- !u!114 &1351692940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351692936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd425adb7f2a744afae023bf3593e015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Identifier: 1006
+  IdentifierName: Heart_Extra_001
+--- !u!114 &1351692941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351692936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ddb1066452584638ad55c7d8e63233e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1352752739
 GameObject:
   m_ObjectHideFlags: 0
@@ -23256,7 +23319,7 @@ GameObject:
   - component: {fileID: 1785879423}
   m_Layer: 0
   m_Name: Controller
-  m_TagString: Untagged
+  m_TagString: WorldCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23300,6 +23363,8 @@ MonoBehaviour:
   activeHearts: 0
   defaultHealth: 0
   maxHealth: 0
+  fullHearts: 0
+  maxHearts: 0
 --- !u!114 &1785879417
 MonoBehaviour:
   m_ObjectHideFlags: 0

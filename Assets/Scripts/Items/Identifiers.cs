@@ -5,4 +5,5 @@ using UnityEngine;
 public class Identifiers : MonoBehaviour
 {
     public int Identifier;
+    public string IdentifierName;
 }

@@ -18,9 +18,13 @@ public class UI_HealthController : MonoBehaviour
     public GameObject Player;
 
     //Storing information
+    [Header("Information")]
     public float activeHearts;
     public float defaultHealth;
     public float maxHealth;
+
+    public bool fullHearts;
+    public bool maxHearts;
 
 
     public void Start()
@@ -29,6 +33,26 @@ public class UI_HealthController : MonoBehaviour
         defaultHealth = Player.GetComponent<CharacterController>().startingHealth;
 
         //smaxHealth = Player.GetComponent<CharacterController>().maxHealth;
+    }
+
+    private void Update()
+    {
+        if(activeHearts == defaultHealth)
+        {
+            //The health is full, not max
+            fullHearts = true;
+        }
+        else if(activeHearts > defaultHealth)
+        {
+            //The health is max
+            maxHearts = true;
+        }
+        else
+        {
+            //The health is not full or max
+            fullHearts = false;
+            maxHearts = false;
+        }
     }
 
     public void AddHeart()
@@ -109,6 +133,7 @@ public class UI_HealthController : MonoBehaviour
             {
                 //Set heart 1
                 HeartIcons[0].gameObject.SetActive(true);
+                HeartIcons[0].gameObject.GetComponent<Image>().sprite = FullHeart;
 
                 HeartIcons[1].gameObject.SetActive(false);
                 HeartIcons[2].gameObject.SetActive(false);
@@ -119,7 +144,9 @@ public class UI_HealthController : MonoBehaviour
             {
                 //Set heart 2
                 HeartIcons[0].gameObject.SetActive(true);
+                HeartIcons[0].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[1].gameObject.SetActive(true);
+                HeartIcons[1].gameObject.GetComponent<Image>().sprite = FullHeart;
 
                 HeartIcons[2].gameObject.SetActive(false);
                 HeartIcons[3].gameObject.SetActive(false);
@@ -130,8 +157,11 @@ public class UI_HealthController : MonoBehaviour
             {
                 //Set heart 3
                 HeartIcons[0].gameObject.SetActive(true);
+                HeartIcons[0].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[1].gameObject.SetActive(true);
+                HeartIcons[1].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[2].gameObject.SetActive(true);
+                HeartIcons[2].gameObject.GetComponent<Image>().sprite = FullHeart;
 
                 HeartIcons[3].gameObject.SetActive(false);
             }
@@ -193,6 +223,7 @@ public class UI_HealthController : MonoBehaviour
             {
                 //1.5 hearts
                 HeartIcons[0].gameObject.SetActive(true);
+                HeartIcons[0].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[1].gameObject.SetActive(true);
 
                 HeartIcons[1].gameObject.GetComponent<Image>().sprite = HalfHeart;
@@ -206,6 +237,7 @@ public class UI_HealthController : MonoBehaviour
                 //2 hearts
 
                 HeartIcons[0].gameObject.SetActive(true);
+                HeartIcons[0].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[1].gameObject.SetActive(true);
 
                 HeartIcons[1].gameObject.GetComponent<Image>().sprite = FullHeart;
@@ -218,7 +250,9 @@ public class UI_HealthController : MonoBehaviour
                 //2.5 hearts
 
                 HeartIcons[0].gameObject.SetActive(true);
+                HeartIcons[0].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[1].gameObject.SetActive(true);
+                HeartIcons[1].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[2].gameObject.SetActive(true);
 
                 HeartIcons[2].gameObject.GetComponent<Image>().sprite = HalfHeart;
@@ -230,8 +264,11 @@ public class UI_HealthController : MonoBehaviour
             {
                 //3 hearts
                 HeartIcons[0].gameObject.SetActive(true);
+                HeartIcons[0].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[1].gameObject.SetActive(true);
+                HeartIcons[1].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[2].gameObject.SetActive(true);
+                HeartIcons[2].gameObject.GetComponent<Image>().sprite = FullHeart;
 
                 HeartIcons[3].gameObject.SetActive(false); //Extra heart
             }
@@ -239,8 +276,11 @@ public class UI_HealthController : MonoBehaviour
             {
                 //3.5 hearts
                 HeartIcons[0].gameObject.SetActive(true);
+                HeartIcons[0].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[1].gameObject.SetActive(true);
+                HeartIcons[1].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[2].gameObject.SetActive(true);
+                HeartIcons[2].gameObject.GetComponent<Image>().sprite = FullHeart;
 
                 HeartIcons[3].gameObject.SetActive(true); //Extra heart
                 HeartIcons[3].gameObject.GetComponent<Image>().sprite = HalfHeart;
@@ -249,8 +289,11 @@ public class UI_HealthController : MonoBehaviour
             {
                 //4 hearts
                 HeartIcons[0].gameObject.SetActive(true);
+                HeartIcons[0].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[1].gameObject.SetActive(true);
+                HeartIcons[1].gameObject.GetComponent<Image>().sprite = FullHeart;
                 HeartIcons[2].gameObject.SetActive(false);
+                HeartIcons[2].gameObject.GetComponent<Image>().sprite = FullHeart;
 
                 HeartIcons[3].gameObject.SetActive(true); //Extra heart
                 HeartIcons[3].gameObject.GetComponent<Image>().sprite = FullHeart;

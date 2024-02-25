@@ -11,6 +11,7 @@ TagManager:
   - NPC
   - InventorySlots
   - BoxSlots
+  - InventoryController
   layers:
   - Default
   - TransparentFX

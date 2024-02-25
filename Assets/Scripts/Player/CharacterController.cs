@@ -68,9 +68,10 @@ public class CharacterController : MonoBehaviour
     public float startingHealth = 3f; //Used for saving/getting the saved health
     public float health = 3f;
     public float maxHealth;
-    float defaultHealth;
+    public float defaultHealth;
     float internalHealthCounter; //This is used to remember the last health amount temporarily
     public bool useHalfHealth = true;
+    public UI_HealthController healthController;
 
     //Items
     [Header("Items")]
@@ -564,6 +565,15 @@ public class CharacterController : MonoBehaviour
             //Remove the heart
             Destroy(other);
 
+            //Save the destroyed item
+            if (other.GetComponent<Identifiers>() != null)
+            {
+                if (other.GetComponent<Identifiers>().IdentifierName != null)
+                {
+                    PlayerPrefs.SetInt("Destroyed_Item_" + other.GetComponent<Identifiers>().IdentifierName, 1);
+                }
+            }
+
             //Add health
             health = health + 1;
 
@@ -588,6 +598,15 @@ public class CharacterController : MonoBehaviour
 
             //Remove the heart
             Destroy(other);
+
+            //Save the destroyed item
+            if (other.GetComponent<Identifiers>() != null)
+            {
+                if (other.GetComponent<Identifiers>().IdentifierName != null)
+                {
+                    PlayerPrefs.SetInt("Destroyed_Item_" + other.GetComponent<Identifiers>().IdentifierName, 1);
+                }
+            }
 
             //Add maximum health
             health = maxHealth;
@@ -861,11 +880,35 @@ public class CharacterController : MonoBehaviour
             //Health
             if (other.gameObject.name == "Heart")
             {
-                addHealth(other.gameObject);
+                if (!healthController.fullHearts)
+                {
+                    //Add health
+                    addHealth(other.gameObject);
+                }
+                else
+                {
+                    //Add health to inventory
+                    if (canPickupItem)
+                    {
+                        StartCoroutine(PickupItem(other.gameObject));
+                    }
+                }
             }
             else if(other.gameObject.name == "Heart_Extra")
             {
-                addExtraHealth(other.gameObject);
+                if (!healthController.maxHearts)
+                {
+                    //Add health
+                    addExtraHealth(other.gameObject);
+                }
+                else
+                {
+                    //Add health to inventory
+                    if (canPickupItem)
+                    {
+                        StartCoroutine(PickupItem(other.gameObject));
+                    }
+                }
             }
         }
 
@@ -910,6 +953,15 @@ public class CharacterController : MonoBehaviour
 
         //Destroy the picked up item
         Destroy(item.gameObject);
+
+        //Save the destroyed item
+        if(item.GetComponent<Identifiers>() != null)
+        {
+            if(item.GetComponent<Identifiers>().IdentifierName != null)
+            {
+                PlayerPrefs.SetInt("Destroyed_Item_" + item.GetComponent<Identifiers>().IdentifierName, 1);
+            }
+        }
 
         //Audio
         audioSource.clip = gainAudio[gainAudioPlay]; //Add gainAudio to the audioSource

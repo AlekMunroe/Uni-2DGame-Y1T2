@@ -58,6 +58,8 @@ public class InventoryController : MonoBehaviour
                 if (match != null)
                 {
                     itemImage.sprite = match.itemSprite; //Add the image based on the name (ItemToSprite)
+
+                    itemImage.GetComponent<Identifiers>().IdentifierName = heldItems[i]; //Set the IdentifierName to be used if it is interactable
                 }
                 else
                 {

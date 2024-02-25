@@ -2,6 +2,15 @@
 "Breakout"
 
 <!-- ROADMAP -->
+## V13
+
+- [x] Allow the player to hold health items
+- [x] Fixed bug where UI shows half health if the sprites are not set correctly when updating the UI.
+- [x] Created a script that will destroy an item if it has previously been picked up.
+- [ ] The rest of the sound effects
+- [ ] Background music
+- [ ] Updated UI
+
 ## V12
 
 - [x] Added save states for room locations
