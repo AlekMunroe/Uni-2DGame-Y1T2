@@ -2,6 +2,16 @@
 "Breakout"
 
 <!-- ROADMAP -->
+## V13.5
+
+- [x] Imported special op spritesheet.
+- [x] Started creating the first cutscene, it has been commented but is incomplete.
+- [x] Updated main menu (Incomplete)
+- [ ] The rest of the sound effects
+- [ ] Background music
+- [ ] Updated UI
+- [ ] Need to remake idle animations
+
 ## V13
 
 - [x] Allow the player to hold health items

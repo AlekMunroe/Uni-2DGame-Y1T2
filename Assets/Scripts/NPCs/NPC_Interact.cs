@@ -223,7 +223,7 @@ public class NPC_Interact : MonoBehaviour
         {
             //Enable the interaction UI "Press (button) to interact"
             interactionUI.SetActive(true);
-            interactionText.text = "Press INTERACTION to interact";
+            interactionText.text = "Press E to interact";
 
             isPlayerNearby = true;
 
