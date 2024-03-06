@@ -25,9 +25,24 @@ public class CutsceneController_01 : MonoBehaviour
     public GameObject security02;
     Animator security02Anim;
 
+
+    public GameObject hunterOpParent;
+    Animation hunterOpParentAnim;
+
+    public GameObject securityParent01;
+    Animation security01ParentAnim;
+
+    public GameObject securityParent02;
+    Animation security02ParentAnim;
+
+    public GameObject ui_ExclimationMark01;
+    public GameObject ui_ExclimationMark02;
+
     [Header("Cameras")]
     public GameObject cam01;
     public GameObject cam02;
+    public GameObject cam03;
+    public GameObject cam04;
 
     [Header("UI")]
     public GameObject fadeScreen;
@@ -56,6 +71,10 @@ public class CutsceneController_01 : MonoBehaviour
         security01Anim = security01.GetComponent<Animator>();
         security02Anim = security02.GetComponent<Animator>();
         fadeScreenAnim = fadeScreen.GetComponent<Animator>();
+
+        hunterOpParentAnim = hunterOpParent.GetComponent<Animation>();
+        security01ParentAnim = securityParent01.GetComponent<Animation>();
+        security02ParentAnim = securityParent02.GetComponent<Animation>();
 
         //Set the first camera active
         cam01.SetActive(true);
@@ -144,24 +163,101 @@ public class CutsceneController_01 : MonoBehaviour
         controllablePlayer.GetComponent<CharacterController>().enabled = true;
     }
 
-    IEnumerator Cutscene02()
+    public IEnumerator Cutscene02()
     {
-        yield return new WaitForSeconds(0.1f);
-
         //Wait until the player walks into the room with all the super soldiers where they are wreaking havoc
+
+        controllablePlayer.GetComponent<CharacterController>().enabled = false;
+        controllablePlayer.GetComponent<CharacterController>().FreezeControls();
+        controllablePlayer.GetComponent<CharacterController>().PlayIdleAnimation(Vector2.right);
 
         //Narrator: "But what he found was beyond imagination; a failed experiment that unleashed unspeakable horrors."
 
-        //The player must shoot all the enemies
+        characterNameText.text = "Narrator";
+        subtitleText.text = "But what he found was beyond imagination; a failed experiment that unleashed unspeakable horrors.";
+        subtitlesUI.SetActive(true);
+
+        yield return new WaitForSeconds(6);
+
+        characterNameText.text = "Narrator";
+        subtitleText.text = "A horde of super soldiers, in a greatly defective form.";
+        subtitlesUI.SetActive(true);
+
+        yield return new WaitForSeconds(4);
+
+        subtitlesUI.SetActive(false);
+        characterNameText.text = "";
+        subtitleText.text = "";
+
+        controllablePlayer.GetComponent<CharacterController>().enabled = true;
+        controllablePlayer.GetComponent<CharacterController>().UnfreezeControls();
+
+        //The player must set the super soldiers free
     }
 
-    IEnumerator Cutscene03()
+    public IEnumerator Cutscene03()
     {
-        yield return new WaitForSeconds(0.1f);
+        //Wait until Hunter to press the button
 
-        //Wait until Hunter kills 10 zombies
+        controllablePlayer.GetComponent<CharacterController>().enabled = false;
+        controllablePlayer.GetComponent<CharacterController>().FreezeControls();
+        controllablePlayer.GetComponent<CharacterController>().PlayIdleAnimation(Vector2.up);
 
-        //Cut to the security who hear the gun shots and a question mark appears above both their heads indicating they heard the gun shots
+        //Alarms go off
+
+        //Speakers: "Security alert! The gates have been opened."
+
+        characterNameText.text = "Speakers";
+        subtitleText.text = "Security alert! The gates are opening.";
+        subtitlesUI.SetActive(true);
+
+        hunterOpParentAnim.Play("Anim01");
+        hunterOpAnim.Play("WalkDown");
+
+        yield return new WaitForSeconds(4);
+
+        controllablePlayer.GetComponent<CharacterController>().PlayIdleAnimation(Vector2.right);
+
+        subtitlesUI.SetActive(false);
+        characterNameText.text = "";
+        subtitleText.text = "";
+
+        //Cut to the security who hear the alarms shots and a question mark appears above both their heads indicating they heard the alarm
+
+        cam04.SetActive(true);
+        cam03.SetActive(false);
+
+        DebugRoomText.text = "Outside Laboratory";
+
+        yield return new WaitForSeconds(2);
+
+        ui_ExclimationMark01.SetActive(true);
+        ui_ExclimationMark02.SetActive(true);
+
+        yield return new WaitForSeconds(2);
+
+        ui_ExclimationMark01.SetActive(false);
+        ui_ExclimationMark02.SetActive(false);
+
+        yield return new WaitForSeconds(1);
+
+        security01Anim.Play("WalkRight");
+        security02Anim.Play("WalkUp");
+
+        security01ParentAnim.Play("Anim01");
+        security02ParentAnim.Play("Anim01");
+
+        yield return new WaitForSeconds(0.5f);
+
+        security02Anim.Play("WalkLeft");
+
+        yield return new WaitForSeconds(0.5f);
+
+        security01Anim.Play("WalkDown");
+        security02Anim.Play("WalkDown");
+
+        security01ParentAnim.Play("Anim02");
+        security02ParentAnim.Play("Anim02");
 
         //Camera - Follow the security guards who walk into the room with Hunter inside
 

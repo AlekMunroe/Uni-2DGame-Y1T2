@@ -713,7 +713,7 @@ public class CharacterController : MonoBehaviour
     }
 
     //Idle
-    void PlayIdleAnimation(Vector2 direction)
+    public void PlayIdleAnimation(Vector2 direction)
     {
         if (direction == Vector2.right)
         {

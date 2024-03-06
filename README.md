@@ -2,6 +2,15 @@
 "Breakout"
 
 <!-- ROADMAP -->
+## V13.6
+
+- [x] The first cutscene is about 50% functional
+- [ ] Complete the first cutscene
+- [ ] The rest of the sound effects
+- [ ] Background music
+- [ ] Updated UI
+- [ ] Need to remake idle animations
+
 ## V13.5
 
 - [x] Imported special op spritesheet.
