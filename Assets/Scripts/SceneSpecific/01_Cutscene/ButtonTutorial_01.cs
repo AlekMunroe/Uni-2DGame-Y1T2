@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Playables;
 
 public class ButtonTutorial_01 : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class ButtonTutorial_01 : MonoBehaviour
     bool isPlayerNearby;
 
     bool canPressButton = true;
+
+    public PlayableDirector director;
 
     private void Update()
     {
@@ -31,7 +34,7 @@ public class ButtonTutorial_01 : MonoBehaviour
                     interactionUI.SetActive(false);
                     interactionText.text = "";
 
-                    StartCoroutine(cutsceneController_01.Cutscene03());
+                    director.Play();
                 }
             }
             else

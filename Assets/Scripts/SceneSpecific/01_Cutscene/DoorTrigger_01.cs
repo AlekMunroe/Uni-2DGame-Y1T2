@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using TMPro;
+using UnityEngine.Playables;
 
 public class DoorTrigger_01 : MonoBehaviour
 {
@@ -17,16 +18,22 @@ public class DoorTrigger_01 : MonoBehaviour
     public TMP_Text tutorialDescriptionText;
     Animation tutorialUIAnim;
 
+    public PlayableDirector director;
+    public GameObject pauseDirector;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
         {
-            cam03.SetActive(true);
-            cam02.SetActive(false);
+            //cam03.SetActive(true);
+            //cam02.SetActive(false);
 
-            doorCollider.SetActive(true);
+            //doorCollider.SetActive(true);
 
-            StartCoroutine(cutsceneController_01.Cutscene02());
+            //StartCoroutine(cutsceneController_01.Cutscene02());
+
+            pauseDirector.SetActive(false);
+            director.Play();
         }
     }
 
