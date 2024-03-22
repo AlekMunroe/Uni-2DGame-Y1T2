@@ -2,6 +2,16 @@
 "Breakout"
 
 <!-- ROADMAP -->
+
+## V13.7
+
+- [x] Created the part of the first map using the temporary tilemap
+- [x] Complete the first cutscene
+- [ ] The rest of the sound effects
+- [ ] Background music
+- [ ] Updated UI
+- [ ] Need to remake idle animations
+
 ## V13.6
 
 - [x] The first cutscene is about 50% functional
